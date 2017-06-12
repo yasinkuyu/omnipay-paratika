@@ -1,0 +1,34 @@
+{
+    "name": "yasinkuyu/omnipay-paratika",
+    "type": "library",
+    "description": "Paratika (Asseco) MOTO/3D gateway for Omnipay payment processing library",
+    "keywords": [
+        "omnipay",
+        "paratika",
+        "İşbank",
+        "Akbank",
+        "Finansbank",
+        "TEB",
+        "Vakıfbank",
+        "Sekerbank",
+        "gateway",
+        "merchant",
+        "sanal pos",
+        "pay",
+        "payment"
+    ],
+    "homepage": "https://github.com/yasinkuyu/omnipay-paratika",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yasin Kuyu",
+            "email": "yasinkuyu@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\Paratika\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    }
+}
