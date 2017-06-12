@@ -1,0 +1,3 @@
+# git ignore file
+Thumbs.db
+.DS_Store
