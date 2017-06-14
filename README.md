@@ -138,7 +138,7 @@ https://github.com/yasinkuyu/omnipay-nestpay
 Posnet (Yapı Kredi, Vakıfbank, Anadolubank) gateway for Omnipay payment processing library
 https://github.com/yasinkuyu/omnipay-posnet
 
-##Iyzico
+## İyzico
 Iyzico gateway for Omnipay payment processing library
 https://github.com/yasinkuyu/omnipay-iyzico
 
