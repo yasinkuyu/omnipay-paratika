@@ -11,7 +11,7 @@
 processing library for PHP 5.3+. This package implements Paratika (Turkish Payment Gateways) support for Omnipay.
 
 
-Paratika, Asseco firmasının yeni sanal pos hizmeti için Omnipay kütüphanesi. 
+Paratika Api Entegrasyonu, Asseco firmasının yeni sanal pos hizmeti için Omnipay kütüphanesi. 
 Akbank, TEB, Halkbank, Finansbank, İş Bankası, Şekerbank ve Vakıfbank taksit imkanı sunuyor. 
 
 
