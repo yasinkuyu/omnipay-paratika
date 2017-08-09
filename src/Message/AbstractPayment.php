@@ -127,7 +127,7 @@ abstract class AbstractPayment extends AbstractRequest
                     'name' => 'Ürün adı',
                     'description' => 'Açıklama',
                     'quantity' => 1,
-                    'amount' => 100.00
+                    'amount' => $this->getAmount()
                 )
             )));
         }
