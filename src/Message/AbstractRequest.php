@@ -29,7 +29,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             'DirectPost3DUrl_test'   => 'https://test.paratika.com.tr/paratika/api/v2/post/sale3d/{sessionToken}',
             'NonDirectPost3D_test'   => 'https://test.paratika.com.tr/merchant/post/sale/{sessionToken}',
 
-            'Merchant_test'          => 'https://test.paratika.com.tr/merchant/payment/{sessionToken}'
+            'Merchant_test'          => 'https://test.paratika.com.tr/merchant/payment/{sessionToken}',
+            
+            'test' => ' https://entegrasyon.paratika.com.tr/'
 
         );
 
