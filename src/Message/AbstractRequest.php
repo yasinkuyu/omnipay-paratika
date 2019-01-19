@@ -336,6 +336,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function setInstallment($value) {
         return $this->setParameter('installment', $value);
     }
+    
+    public function getBin() {
+        return $this->getParameter('Bin');
+    }
+
+    public function setBin($value) {
+        return $this->setParameter('Bin', $value);
+    }
 
     public function getEndpoint()
     {
