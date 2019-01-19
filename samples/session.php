@@ -20,7 +20,36 @@ $gateway = Omnipay::create('Paratika');
 $gateway->setMerchant('10000000');
 $gateway->setMerchantUser('test@yasinkuyu.net');
 $gateway->setMerchantPassword('Paratika123');
-$gateway->setBank('ISBANK');
+
+$gateway->setBin("435508");
+$gateway->setMode("api");
+
+try {
+    $cardNetwork = 'UNKNOWN';
+    $options = [
+        'queryAction'   => 'QUERYBIN'
+    ];
+ 
+    $response = $gateway->query($options)->send();
+
+    if ($response->isSuccessful()) {
+
+        $details = $response->getQueryDetails();
+        if($details['responseCode'] = "00"){
+            $cardNetwork = $details['bin']['cardNetwork'];
+        }
+        
+
+    } else {
+        exit($response->getMessage());
+    }
+ 
+ 
+} catch (\Exception $e) {
+    echo $e->getMessage();
+}
+
+$gateway->setBank($cardNetwork);
 
 $gateway->setMode("api"); 
 
