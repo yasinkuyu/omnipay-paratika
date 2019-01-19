@@ -138,6 +138,14 @@ class Gateway extends AbstractGateway
     public function setQueryAction($value) {
         return $this->setParameter('queryAction', $value);
     }
+    
+    public function getBin() {
+        return $this->getParameter('Bin');
+    }
+
+    public function setBin($value) {
+        return $this->setParameter('Bin', $value);
+    }
 
     public function authorize(array $parameters = array())
     {
