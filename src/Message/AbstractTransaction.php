@@ -28,6 +28,7 @@ abstract class AbstractTransaction extends AbstractRequest
         $data['MERCHANT']               = $this->getMerchant();
         $data['PGTRANID']               = $this->getTransactionId();
         $data['MERCHANTPAYMENTID']      = $this->getOrderId();
+        $data['BIN']                    = $this->getBin();
 
         return $data;
     }
