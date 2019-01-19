@@ -33,7 +33,15 @@ abstract class AbstractPayment extends AbstractRequest
         'ISBANK'    => 'MAXIMUM',
         'SEKERBANK' => 'BONUS',
         'VAKIFBANK' => 'WORLD',
+        'AXESS'     => 'AXESS',
+        'BONUS'     => 'BONUS',
+        'PARAF'     => 'PARAF',
+        'CARD_FNS'  => 'CARD_FNS',
+        'MAXIMUM'   => 'MAXIMUM',
+        'BONUS'     => 'BONUS',
+        'WORLD'     => 'WORLD'
     ];
+ 
 
     protected $allowedCurrencies = [
         "CHF", "MXN", "ARS", "SAR", 
