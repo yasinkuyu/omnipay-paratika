@@ -45,7 +45,7 @@ class CompletePaymentResponse extends AbstractResponse
             return $this->getErrors()[$this->data["errorCode"]];
         }
 
-        if( $this->data['errorMsg'] && $this->data['errorMsg'] == "" ){
+        if( isset($this->data['errorMsg']) && $this->data['errorMsg'] == "" ){
             return $this->getErrors()[$this->data["errorCode"]];
         }
 
