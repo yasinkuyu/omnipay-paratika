@@ -1,7 +1,7 @@
 {
-    "name": "yasinkuyu/omnipay-paratika",
+    "name": "erdincgc/omnipay-paratika",
     "type": "library",
-    "description": "Paratika (Asseco) MOTO/3D gateway for Omnipay payment processing library",
+    "description": "Updated fork of Yasin Kuyu package of Paratika (Asseco) MOTO/3D gateway for Omnipay payment processing library",
     "keywords": [
         "omnipay",
         "paratika",
@@ -17,12 +17,12 @@
         "pay",
         "payment"
     ],
-    "homepage": "https://github.com/yasinkuyu/omnipay-paratika",
+    "homepage": "https://github.com/erdincgc/omnipay-paratika",
     "license": "MIT",
     "authors": [
         {
-            "name": "Yasin Kuyu",
-            "email": "yasinkuyu@gmail.com"
+            "name": "Erdinc G. Corbaci",
+            "email": "erdincgc@gmail.com"
         }
     ],
     "autoload": {
