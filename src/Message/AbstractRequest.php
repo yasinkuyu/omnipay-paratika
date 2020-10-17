@@ -21,9 +21,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             
         return array(
 
-            'api'                    => 'https://entegrasyon.paratika.com.tr/paratika/api/v2',
-            'DirectPost3D'           => 'https://entegrasyon.paratika.com.tr/paratika/api/v2/post/sale3d/{sessionToken}',
-            'NonDirectPost3D'        => 'https://entegrasyon.paratika.com.tr/merchant/post/sale/{sessionToken}',
+            'api'                    => 'https://vpos.paratika.com.tr/paratika/api/v2',
+            'DirectPost3D'           => 'https://vpos.paratika.com.tr/paratika/api/v2/post/sale3d/{sessionToken}',
+            'NonDirectPost3D'        => 'https://vpos.paratika.com.tr/merchant/post/sale/{sessionToken}',
 
             'api_test'               => 'https://test.paratika.com.tr/paratika/api/v2',
             'DirectPost3DUrl_test'   => 'https://test.paratika.com.tr/paratika/api/v2/post/sale3d/{sessionToken}',
