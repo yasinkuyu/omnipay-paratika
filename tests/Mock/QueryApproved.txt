@@ -1,0 +1,4 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{"responseCode":"00","responseMsg":"Approved","transactionCount":1,"transactionList":[{"pgTranId":"18285OQZD14766","pgTranRefId":"828512345678","pgTranApprCode":"P11111","amount":149.9,"currency":"TRY","transactionStatus":"AP","transactionType":"SALE","installmentCount":3,"bin":"545616","panLast4":"5454"}]}

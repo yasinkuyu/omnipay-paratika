@@ -1,28 +1,25 @@
 <?php
 
-/*
-Omnipay-Paratika
-
-Paratika (Asseco) MOTO/3D gateway for Omnipay payment processing library
-
-İnsya Bilişim Teknolojileri
-http://insya.com
-
-@yasinkuyu
-07.06.2017
-*/
-
 namespace Omnipay\Paratika\Message;
 
-class VoidRequest extends AbstractTransaction
+/** İptal (gün sonundan önce): transactionReference (PGTRANID) ya da transactionId (MERCHANTPAYMENTID) */
+class VoidRequest extends AbstractRequest
 {
-
-	// İptal işlemi
-    public function getData()
+    public function getData(): array
     {
-    	
-        $this->actionType = 'VOID';
-        return parent::getData();
+        if (!$this->getTransactionReference()) {
+            $this->validate('transactionId');
+        }
+        $data = $this->credentials() + ['ACTION' => 'VOID'];
+        $this->getTransactionReference()
+            ? $data['PGTRANID'] = (string) $this->getTransactionReference()
+            : $data['MERCHANTPAYMENTID'] = (string) $this->getTransactionId();
+
+        return $data;
     }
 
+    public function sendData($data): ApiResponse
+    {
+        return $this->response = new ApiResponse($this, $this->api($data));
+    }
 }

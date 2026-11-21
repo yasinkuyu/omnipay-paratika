@@ -1,28 +1,29 @@
 <?php
 
-/*
-Omnipay-Paratika
-
-Paratika (Asseco) MOTO/3D gateway for Omnipay payment processing library
-
-İnsya Bilişim Teknolojileri
-http://insya.com
-
-@yasinkuyu
-07.06.2017
-*/
-
 namespace Omnipay\Paratika\Message;
 
-class RefundRequest extends AbstractTransaction
+/** İade: transactionReference (PGTRANID) ya da transactionId (MERCHANTPAYMENTID), amount (verilmezse tamamı) */
+class RefundRequest extends AbstractRequest
 {
-
-	// İade
-    public function getData()
+    public function getData(): array
     {
- 
-        $this->actionType = 'REFUND';
-        return parent::getData();
+        if (!$this->getTransactionReference()) {
+            $this->validate('transactionId');
+        }
+        $data = $this->credentials() + ['ACTION' => 'REFUND'];
+        $this->getTransactionReference()
+            ? $data['PGTRANID'] = (string) $this->getTransactionReference()
+            : $data['MERCHANTPAYMENTID'] = (string) $this->getTransactionId();
+        if ($this->getParameter('amount') !== null) {
+            $data['AMOUNT'] = $this->getAmount();
+            $data['CURRENCY'] = (string) ($this->getCurrency() ?: 'TRY');
+        }
+
+        return $data;
     }
 
+    public function sendData($data): ApiResponse
+    {
+        return $this->response = new ApiResponse($this, $this->api($data));
+    }
 }

@@ -1,0 +1,4 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{"sessionToken":"HCZVQH5FIR5QBHBQCT6AMUJLVHEHXCMSQ2HA5I6WCGQKQNQX","responseCode":"00","responseMsg":"Approved"}

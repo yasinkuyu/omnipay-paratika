@@ -1,179 +1,105 @@
 # Omnipay: Paratika
 
-**Paratika (Asseco) (Akbank, TEB, Halkbank, Finansbank, İş Bankası, Şekerbank, Vakıfbank ) gateway for Omnipay payment processing library**
+**Paratika (Payten / Asseco) ortak ödeme sayfası sürücüsü — [Omnipay](https://github.com/thephpleague/omnipay) v3**
 
-[![Latest Stable Version](https://poser.pugx.org/yasinkuyu/omnipay-paratika/v/stable)](https://packagist.org/packages/yasinkuyu/omnipay-paratika) 
-[![Total Downloads](https://poser.pugx.org/yasinkuyu/omnipay-paratika/downloads)](https://packagist.org/packages/yasinkuyu/omnipay-paratika) 
-[![Latest Unstable Version](https://poser.pugx.org/yasinkuyu/omnipay-paratika/v/unstable)](https://packagist.org/packages/yasinkuyu/omnipay-paratika) 
+[![Latest Stable Version](https://poser.pugx.org/yasinkuyu/omnipay-paratika/v/stable)](https://packagist.org/packages/yasinkuyu/omnipay-paratika)
+[![Total Downloads](https://poser.pugx.org/yasinkuyu/omnipay-paratika/downloads)](https://packagist.org/packages/yasinkuyu/omnipay-paratika)
 [![License](https://poser.pugx.org/yasinkuyu/omnipay-paratika/license)](https://packagist.org/packages/yasinkuyu/omnipay-paratika)
 
-[Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
-processing library for PHP 5.3+. This package implements Paratika (Turkish Payment Gateways) support for Omnipay.
+Aynı altyapı üç adla sunulur; `platform` ile seçilir:
 
+| platform | Ürün |
+|---|---|
+| `paratika` | Paratika |
+| `vakifpay` | VakıfPayS (Vakıfbank) |
+| `ziraatpay` | ZiraatPay (Ziraat Bankası) |
 
-Paratika Api Entegrasyonu, Asseco firmasının yeni sanal pos hizmeti için Omnipay kütüphanesi. 
-Akbank, TEB, Halkbank, Finansbank, İş Bankası, Şekerbank ve Vakıfbank taksit imkanı sunuyor. 
+- **Ortak ödeme sayfası (HPP):** kart bilgisi ve taksit seçimi Paratika'nın sayfasında, sizin sunucunuzdan geçmez
+- Dönüş doğrulaması: `sdSha512` imzası + `QUERYTRANSACTION` ile sunucudan sorgu (onaylı satış görülmeden ödeme başarılı sayılmaz)
+- İade (tam / kısmi), iptal, işlem sorgusu
 
+## Kurulum
 
-## Installation
+```bash
+composer require yasinkuyu/omnipay-paratika:^3.0 php-http/guzzle7-adapter
+```
 
-    composer require yasinkuyu/omnipay-paratika:~2.0
+PHP 8.1+ ve `omnipay/common` ^3.3 gerekir. 2.x sürümü `master` dalında duruyor.
 
-## Basic Usage
+## Kullanım
 
-The following gateways are provided by this package:
+```php
+use Omnipay\Omnipay;
 
-* Paratika
-    - Akbank
-    - TEB
-    - Hakbank 
-    - Finansbank
-    - İş Bankası 
-    - Şekerbank
-    - Vakıfbank 
+$gateway = Omnipay::create('Paratika');
+$gateway->initialize([
+    'platform'         => 'paratika',          // paratika | vakifpay | ziraatpay
+    'merchant'         => '10000000',          // üye iş yeri no
+    'merchantUser'     => 'api@magaza.com',    // API kullanıcısı
+    'merchantPassword' => '********',
+    'secretKey'        => '********',          // dönüş imzası (sdSha512) için, önerilir
+    'testMode'         => true,
+]);
+```
 
-Gateway Methods
+### 1. Ödeme oturumu ve yönlendirme
 
-* authorize($options) - authorize an amount on the customer's card
-* capture($options) - capture an amount you have previously authorized
-* purchase($options) - authorize and immediately capture an amount on the customer's card
-* refund($options) - refund an already processed transaction
-* void($options) - generally can only be called up to 24 hours after submitting a transaction
-* session($options) - session parameters required to purchase.
-* query($options) - query for various other inquiries.
+```php
+$response = $gateway->purchase([
+    'amount'              => '149.90',
+    'currency'            => 'TRY',
+    'transactionId'       => 'SIP-10045',                       // MERCHANTPAYMENTID
+    'returnUrl'           => 'https://magaza.com/odeme/donus',
+    'clientIp'            => $_SERVER['REMOTE_ADDR'],
+    'allowedInstallments' => [2, 3, 6],                         // ödeme sayfasında sunulacak taksitler
+    'card'  => ['email' => 'ali@ornek.com', 'billingFirstName' => 'Ali', 'billingLastName' => 'Kaya', 'billingPhone' => '5551112233'],
+    'items' => [['name' => 'Kazak', 'quantity' => 2, 'price' => '50.00'], ['name' => 'Kargo', 'quantity' => 1, 'price' => '49.90']],
+])->send();
 
-For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
-repository.
- 
-## Samples
-
-			require __DIR__ . '/vendor/autoload.php';
-
-			use Omnipay\Omnipay;
-
-			$gateway = Omnipay::create('Paratika');
-			$gateway->setMerchant('10000000');
-			$gateway->setMerchantUser('test@yasinkuyu.net');
-			$gateway->setMerchantPassword('Paratika123');
-			$gateway->setSecretKey('QOClasdJUuDDWasdasdasd');
-			$gateway->setBank('ISBANK');
-
-			$gateway->setMode("NonDirectPost3D");
-			//Diğer paremetreler: api DirectPost3D NonDirectPost3D
-			//3D test için işlem şifresi a ya da 1
-
-			// Zorunlu parametreler
-			$card = [
-			    'number'        => '5456165456165454',
-			    'expiryMonth'   => '12',
-			    'expiryYear'    => '2020',
-			    'cvv'           => '000',
-
-			    'email'         => 'info@insya.com',
-			    'firstname'     => 'Insya',
-			    'lastname'      => 'Bilisim',
-			    'phone'         => '95555050505',
-
-			    'billingAddress1' => 'Test sokak',
-			    'billingCity'     => 'Tekirdag',
-			    'billingPostcode' => '59850',
-			    'billingCountry'  => 'Turkey',
-
-			    'shippingAddress1' => 'Test sokak',
-			    'shippingCity'     => 'Tekirdag',
-			    'shippingPostcode' => '59850',
-			    'shippingCountry'  => 'Turkey'
-			];
-
-			try {
-			 
-			    $options = [
-			        'amount'        => 100.00,
-			        'currency'      => 'TRY',
-			        //'installment'   => 0, // Taksit
-			        'orderId'       => 'S-12341308', // Benzersiz olmalı.
-			        'returnUrl'     => 'http://local.desktop/Paratika/callback.php',
-			        'cancelUrl'     => 'http://local.desktop/Paratika/callback.php',
-			        'sessionType'   => 'PAYMENTSESSION', //Diğer parametreler: PAYMENTSESSION WALLETSESSION
-			        'card'          => $card,
-			    ];
-
-			    // SessionToken almak için oturum açalım
-			    $sessionResponse = $gateway->session($options)->send();
-			    
-			    if ($sessionResponse->isSuccessful()) {
-			        
-			            $sessionToken =  $sessionResponse->getSessionToken();
-
-			            // Oturum değiştikenini satış ve diğer işlemlerde kullanmak için tanımlayalım.
-			            $gateway->setSessionToken($sessionToken);
-
-			            // Auth (Satış) işlemi
-			            $response = $gateway->purchase($options)->send();
-
-			            if ($response->isSuccessful()) {
-			                echo "İşlem başarılı transactionId:". $response->getTransactionId();
-			            } elseif ($response->isRedirect()) {
-			                $response->redirect();
-			            } else {
-			                echo $response->getMessage();
-			            }
-
-			    } elseif ($sessionResponse->isRedirect()) {
-			        $sessionResponse->redirect();
-			    } else {
-			        echo $sessionResponse->getMessage();
-			    }
-
-			 
-			} catch (\Exception $e) {
-			    echo $e->getMessage();
-			}
-
-## NestPay (EST)
-(İş Bankası, Akbank, Finansbank, Denizbank, Kuveytturk, Halkbank, Anadolubank, ING Bank, Citibank, Cardplus) gateway for Omnipay payment processing library
-https://github.com/yasinkuyu/omnipay-nestpay
-
-## Posnet
-Posnet (Yapı Kredi, Vakıfbank, Anadolubank) gateway for Omnipay payment processing library
-https://github.com/yasinkuyu/omnipay-posnet
-
-## İyzico
-Iyzico gateway for Omnipay payment processing library
-https://github.com/yasinkuyu/omnipay-iyzico
-
-## GVP (Granti Sanal Pos)
-Gvp (Garanti, Denizbank, TEB, ING, Şekerbank, TFKB) gateway for Omnipay payment processing library
-https://github.com/yasinkuyu/omnipay-gvp
-
-## BKM Express
-BKM Express gateway for Omnipay payment processing library
-https://github.com/yasinkuyu/omnipay-bkm
-
-
-## Composer Installation
-
-Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply add it
-to your `composer.json` file:
-
-```json
-{
-    "require": {
-        "yasinkuyu/omnipay-paratika": "~2.0"
-    }
+if ($response->isRedirect()) {
+    $response->redirect();             // https://…/payment/{oturum}
+} else {
+    echo $response->getMessage();      // ör. "Geçersiz kullanıcı bilgileri"
 }
 ```
 
-And run composer to update your dependencies:
+Sepet satırlarının toplamı tutarı tutmazsa tek satır ("Siparis …") gönderilir.
 
-    $ curl -s http://getcomposer.org/installer | php
-    $ php composer.phar update
+### 2. Dönüş
 
+```php
+$result = $gateway->completePurchase([
+    'transactionId' => 'SIP-10045', // KENDİ kaydınızdaki sipariş no (dönüş gövdesinden alınmaz)
+    'amount'        => '149.90',    // isteğe bağlı: sorgudaki tutarla karşılaştırılır
+])->send();
 
-## Support
+if (!$result->isVerified()) {
+    // imza tutmadı ya da sonuç sorguyla kesinleşmedi: kaydetmeyin, sonra fetchTransaction ile yeniden bakın
+} elseif ($result->isSuccessful()) {
+    $result->getTransactionReference(); // PGTRANID (iade / iptal için saklayın)
+    $result->getInstallment();
+    $result->getMaskedCard();           // 545616******5454
+} else {
+    $result->getMessage();
+}
+```
 
-If you believe you have found a bug, please report it using the [GitHub issue tracker](https://github.com/yasinkuyu/omnipay-paratika/issues),
-or better yet, fork the library and submit a pull request.
+### İade, iptal, sorgu
 
-## Roadmap
- 
+```php
+$gateway->void(['transactionReference' => $pgTranId])->send();                       // gün sonundan önce
+$gateway->refund(['transactionReference' => $pgTranId, 'amount' => '50.00'])->send(); // tam / kısmi
+$gateway->fetchTransaction(['transactionId' => 'SIP-10045'])->send()->getTransactions();
+```
+
+`isReadable()` false ise yanıt okunamadı: işlem gerçekleşmiş olabilir, otomatik tekrar denemeyin.
+
+## Testler
+
+```bash
+composer install && vendor/bin/phpunit
+```
+
+## Lisans
+
+MIT — Yasin Kuyu
