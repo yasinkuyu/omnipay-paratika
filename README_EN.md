@@ -184,9 +184,7 @@ composer install
 vendor/bin/phpunit
 ```
 
-## Other Omnipay packages
-
-Other Omnipay drivers by the same author:
+## My other Omnipay packages
 
 - **[Omnipay: NestPay (EST / Payten)](https://github.com/yasinkuyu/omnipay-nestpay)** — İş Bankası, Akbank, Halkbank, Ziraat, TEB, QNB, ING, Şekerbank, Anadolubank virtual POS; 3D Pay Hosting
 - **[Omnipay: GVP (Garanti BBVA)](https://github.com/yasinkuyu/omnipay-gvp)** — Garanti BBVA virtual POS; hosted payment page
