@@ -6,10 +6,7 @@
 [![Total Downloads](https://poser.pugx.org/yasinkuyu/omnipay-paratika/downloads)](https://packagist.org/packages/yasinkuyu/omnipay-paratika)
 [![License](https://poser.pugx.org/yasinkuyu/omnipay-paratika/license)](https://packagist.org/packages/yasinkuyu/omnipay-paratika)
 
-> **English:** Omnipay v3 driver for the Paratika (Payten / Asseco) hosted payment page, also sold as VakıfPayS and
-> ZiraatPay. The customer enters the card and picks installments on the provider's page; card data never touches your
-> server. The return is verified with the `sdSha512` signature and a server-side `QUERYTRANSACTION`. Refund, void and
-> transaction query included. Texts below are in Turkish; the code examples are self-explanatory.
+**Türkçe** | [English](README_EN.md)
 
 ## Bu paket ne yapar?
 
@@ -178,7 +175,7 @@ gerçekleşmiş olabilir. Otomatik olarak yeniden denemeyin; yönetim panelinden
 - Kart numarasıyla doğrudan satış ve DirectPost kaldırıldı; ödeme ortak ödeme sayfasında alınır.
 - `merchant`, `merchantUser`, `merchantPassword`, `secretKey`, `platform` ayarları; `bank` ve `mode` kalktı.
 - `completePurchase()` dönüşü imza ve sorguyla doğrular.
-- 2.x `master` dalında duruyor: `composer require yasinkuyu/omnipay-paratika:^2.0`
+- Eski sürümü (2.x) kullanmaya devam etmek isterseniz: `composer require yasinkuyu/omnipay-paratika:^2.0`
 
 ## Testler
 
